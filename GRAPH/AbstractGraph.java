@@ -1,110 +1,110 @@
-package GRAPH;
-
-import LIST.SeqList;
-import QUEUE.LinkedQueue;
-
-public abstract class AbstractGraph<T> {
-	//Í¼µÄÓĞÏòºÍÎŞÏòÊÇÓÉÄã´«ÈëµÄTripleÀ´¾ö¶¨µÄ¡£
-	protected static final int MAX_WEIGHT = 0x0000ffff;
-	protected SeqList<T>  vertexList;
-	//ÓÃÏßĞÔ±í´¢´æ¶¥µã¡£
-	public AbstractGraph(int length){
-		this.vertexList = new SeqList<T>(length);
-	}
-	public AbstractGraph() {
-		this(10);
-	}
-	public int vertexCount(){
-		return this.vertexList.size();
-	}
-	public String toString(){
-		return "¶¥µã¼¯ºÏ"+ this.vertexList.toString() + '\n';
-	}
-	//·µ»Ø¶¥µã¼¯ºÏ¡£
-	public int insertVertex(T data){
-		return this.vertexList.insert(data);
-	}
-	//Î²²åÈë£¨ÒòÎªÎÒÃ»Ğ´ÖØÔØ£©
-	public T getVertex(int x){
-		return this.vertexList.get(x);
-	}
-	//»ñÈ¡
-	protected abstract int next(int i ,int j);
-	public void setVertex(int x,T data){
-		this.vertexList.set(x, data);
-	}
-
-	//DFSÉî¶ÈÓÅÏÈ±éÀú
-	public void DFSTraverse(int i){
-		Boolean[] visited = new Boolean[this.vertexCount()];
-		for(int k = 0;k<visited.length;k++){
-			visited[k] = false;
-		}
-		int j = i;
-		//ÕâÀïµÄjºÍiÖ»ÊÇÎªÁËÈ·¶¨ÊÇ·ñËùÓĞÔªËØ¶¼±»±éÀú£¬ºÍÊµ¼ÊµÄ±ßÎŞ¹Ø¡£
-		do{
-			if(!visited[j]){
-				System.out.print("{");
-				this.depthfs(j,visited);
-				System.out.print("}");
-			}
-			j= (i+1)%this.vertexCount();
-		}while(j!=i);
-		System.out.println();
-	}
-
-	private void depthfs(int i,Boolean[] visited){
-		System.out.print("\t"+this.getVertex(i)+"\t");
-		visited[i] = true;
-		int j = this.next(i,-1);
-		while(j!=-1){
-			if(!visited[j]){
-				this.depthfs(j,visited);
-				//ÏÈºöÂÔµô×îºóÒ»ĞĞ£¬ÕâÒ»ĞĞ¾ÍÊÇ´Ó¶¥µãÓÃnextÒ»Ö±µÃµ½¿É·ÃÎÊµÄ×îºóÒ»¸öÔªËØ¡£
-			}
-			//´Ó×îºóÒ»¸ö¿ªÊ¼£¬ÍùÇ°·µ»Ø£¬ºÜ·ûºÏµİ¹éµÄË¼Ïë¡£
-			j = this.next(i,j);
-		}
-	}
-
-	//¹ã¶ÈÓÅÏÈ±éÀú£¬ÕâÀïÒòÎª·ÇÁ¬Í¬Í¼ÔÚÊ¹ÓÃ¹ã¶ÈÓÅÏÈ±éÀúµÄÊ±ºò¿ÉÄÜÄÃ²»µ½ËùÓĞµÄÔªËØ£¬ËùÒÔ¾ÍĞèÒª±éÀúËùÓĞÆğµã¡£
-	public void BFSTraverse(int i){
-		Boolean[] visited = new Boolean[this.vertexCount()];
-		for(int k = 0;k<visited.length;k++){
-			visited[k] = false;
-		}
-		int j = i;
-		do{
-			if(!visited[j]){
-				System.out.print("{");
-				this.breathfs(j,visited);
-				System.out.print("}");
-			}
-			j = (j+1)%this.vertexCount();
-		}while(j!=i);
-	}
-	/**
-	 * ¹ã¶ÈÓÅÏÈ±éÀúµÄ¹ı³Ì¾ÍÊÇÏÈ´òÓ¡È»ºóÈë¶ÓÁĞÉèÖÃÒÔ·ÃÎÊ£¬È»ºó½«ÆäËùÓĞ¿É·ÃÎÊ½ÚµãÈë¶ÓÁĞ£¬
-	 * Ö®ºó½«Ê×¸öÔªËØ³ö¶ÓÁĞÔÙÖ´ĞĞÒ»±éÒ»Ö±µ½¶ÓÁĞ¿Õ¿Õ¡£
-	 */
-	private void breathfs(int i,Boolean[] visited){
-		System.out.print("\t"+this.getVertex(i)+"\t");
-		//´òÓ¡µÚÒ»¸öÔªËØ
-		LinkedQueue<Integer> queue = new LinkedQueue<Integer>();
-		visited[i] = true;
-		//ÉèÖÃÒÑ·ÃÎÊ
-		queue.add(i);
-		//Èë¶ÓÁĞ
-		while(!queue.isEmpty()){
-			i = queue.poll();
-			//µÚÒ»¸öÔªËØ³ö¶ÓÁĞ£¬½«ËûµÄËùÓĞ¿É´ïÔªËØÈë¶ÓÁĞ£¬·ÃÎÊ²¢ÇÒÉèÖÃÒÔ·ÃÎÊ
-			for(int j = next(i,-1);j!=-1;j=next(i,j)){
-				if(!visited[j]){
-					System.out.print(this.getVertex(j)+"\t");
-					visited[j] = true;
-					queue.add(j);
-				}
-			}
-		}
-	}
-}
+//package GRAPH;
+//
+//import LIST.SeqList;
+//import QUEUE.LinkedQueue;
+//
+//public abstract class AbstractGraph<T> {
+//	//Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã´«ï¿½ï¿½ï¿½Tripleï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡ï¿½
+//	protected static final int MAX_WEIGHT = 0x0000ffff;
+//	protected SeqList<T>  vertexList;
+//	//ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½æ¶¥ï¿½ã¡£
+//	public AbstractGraph(int length){
+//		this.vertexList = new SeqList<T>(length);
+//	}
+//	public AbstractGraph() {
+//		this(10);
+//	}
+//	public int vertexCount(){
+//		return this.vertexList.size();
+//	}
+//	public String toString(){
+//		return "ï¿½ï¿½ï¿½ã¼¯ï¿½ï¿½"+ this.vertexList.toString() + '\n';
+//	}
+//	//ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ã¼¯ï¿½Ï¡ï¿½
+//	public int insertVertex(T data){
+//		return this.vertexList.insert(data);
+//	}
+//	//Î²ï¿½ï¿½ï¿½ë£¨ï¿½ï¿½Îªï¿½ï¿½Ã»Ğ´ï¿½ï¿½ï¿½Ø£ï¿½
+//	public T getVertex(int x){
+//		return this.vertexList.get(x);
+//	}
+//	//ï¿½ï¿½È¡
+//	protected abstract int next(int i ,int j);
+//	public void setVertex(int x,T data){
+//		this.vertexList.set(x, data);
+//	}
+//
+//	//DFSï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½
+//	public void DFSTraverse(int i){
+//		Boolean[] visited = new Boolean[this.vertexCount()];
+//		for(int k = 0;k<visited.length;k++){
+//			visited[k] = false;
+//		}
+//		int j = i;
+//		//ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½iÖ»ï¿½ï¿½Îªï¿½ï¿½È·ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½Ø¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ÊµÄ±ï¿½ï¿½Ş¹Ø¡ï¿½
+//		do{
+//			if(!visited[j]){
+//				System.out.print("{");
+//				this.depthfs(j,visited);
+//				System.out.print("}");
+//			}
+//			j= (i+1)%this.vertexCount();
+//		}while(j!=i);
+//		System.out.println();
+//	}
+//
+//	private void depthfs(int i,Boolean[] visited){
+//		System.out.print("\t"+this.getVertex(i)+"\t");
+//		visited[i] = true;
+//		int j = this.next(i,-1);
+//		while(j!=-1){
+//			if(!visited[j]){
+//				this.depthfs(j,visited);
+//				//ï¿½Èºï¿½ï¿½Ôµï¿½ï¿½ï¿½ï¿½Ò»ï¿½Ğ£ï¿½ï¿½ï¿½Ò»ï¿½Ğ¾ï¿½ï¿½Ç´Ó¶ï¿½ï¿½ï¿½ï¿½ï¿½nextÒ»Ö±ï¿½Ãµï¿½ï¿½É·ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ôªï¿½Ø¡ï¿½
+//			}
+//			//ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ø£ï¿½ï¿½Ü·ï¿½ï¿½Ïµİ¹ï¿½ï¿½Ë¼ï¿½ë¡£
+//			j = this.next(i,j);
+//		}
+//	}
+//
+//	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½Í¬Í¼ï¿½ï¿½Ê¹ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½Ôªï¿½Ø£ï¿½ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ã¡£
+//	public void BFSTraverse(int i){
+//		Boolean[] visited = new Boolean[this.vertexCount()];
+//		for(int k = 0;k<visited.length;k++){
+//			visited[k] = false;
+//		}
+//		int j = i;
+//		do{
+//			if(!visited[j]){
+//				System.out.print("{");
+//				this.breathfs(j,visited);
+//				System.out.print("}");
+//			}
+//			j = (j+1)%this.vertexCount();
+//		}while(j!=i);
+//	}
+//	/**
+//	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È±ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½È´ï¿½Ó¡È»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½Ê£ï¿½È»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¿É·ï¿½ï¿½Ê½Úµï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½
+//	 * Ö®ï¿½ï¿½ï¿½×¸ï¿½Ôªï¿½Ø³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½Ò»ï¿½ï¿½Ò»Ö±ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¿Õ¿Õ¡ï¿½
+//	 */
+//	private void breathfs(int i,Boolean[] visited){
+//		System.out.print("\t"+this.getVertex(i)+"\t");
+//		//ï¿½ï¿½Ó¡ï¿½ï¿½Ò»ï¿½ï¿½Ôªï¿½ï¿½
+//		LinkedQueue<Integer> queue = new LinkedQueue<Integer>();
+//		visited[i] = true;
+//		//ï¿½ï¿½ï¿½ï¿½ï¿½Ñ·ï¿½ï¿½ï¿½
+//		queue.add(i);
+//		//ï¿½ï¿½ï¿½ï¿½ï¿½
+//		while(!queue.isEmpty()){
+//			i = queue.poll();
+//			//ï¿½ï¿½Ò»ï¿½ï¿½Ôªï¿½Ø³ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¿É´ï¿½Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ£ï¿½ï¿½ï¿½ï¿½Ê²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½
+//			for(int j = next(i,-1);j!=-1;j=next(i,j)){
+//				if(!visited[j]){
+//					System.out.print(this.getVertex(j)+"\t");
+//					visited[j] = true;
+//					queue.add(j);
+//				}
+//			}
+//		}
+//	}
+//}

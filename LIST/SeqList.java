@@ -1,6 +1,6 @@
 package LIST;
 
-public class SeqList<T> extends Object {
+public class SeqList<T extends Comparable> extends Object {
     public Object[] element;
     public int num;
     //这个num指的是实际容量。
@@ -129,5 +129,23 @@ public class SeqList<T> extends Object {
         }
         
     	this.num = this.num-k;
+    }
+    
+    public int binarysearch(T n){
+    	int start = 0;
+    	int end = this.num - 1;
+
+    	while(start <= end){
+    		int middle = (start+end)/2;
+    		int whobig =((T)this.element[middle]).compareTo(n);
+    		if(whobig > 0){
+    			end = middle - 1;
+    		}else if(whobig < 0){
+    			start = middle + 1;
+    		}else{
+    			return middle;
+    		}
+    	}
+    	return -1;
     }
 }
