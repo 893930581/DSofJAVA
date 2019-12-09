@@ -58,7 +58,7 @@ public class SinglyList<T> {
          p.next = new Node<T>(x,p.next);
          return p.next;
      }
-
+     
      public Node<T> insert(T x){
          if(x == null){
              throw new NullPointerException();
@@ -73,6 +73,17 @@ public class SinglyList<T> {
 
          return p.next;
      }
+     
+	public T insertDifferent(T x) {
+		Node<T> front=this.head;
+		for(int j=0;front.next!=null;j++) {
+			if(front.next.data==x)
+				return null;
+			front=front.next;
+			}
+		front.next=new Node<T>(x,front.next);
+		return x;
+	}
 
     public Node<T> remove(int i) {
          Node<T> p = this.head;
@@ -85,6 +96,20 @@ public class SinglyList<T> {
              return old;
          }
          return null;
+    }
+    
+    public T remove(T data){
+    	Node<T> p = this.head;
+    	while(p != null){}{
+    		if(p.next.data != data){
+    			p = p.next;
+    		}else{
+    			T r = p.next.data;
+    			p.next = p.next.next;
+    			return p.data;
+    		}
+    	}
+    	return null;
     }
 
     public Node<T> search(T data){
@@ -105,33 +130,33 @@ public class SinglyList<T> {
          return null;
     }
     
-//  public int search(T x){
-//	 int i = 0;
-//	 Node<T> p = this.head;
-//	 while(p!=null){
-//		 p = p.next;
-//		 i++;
-//		 if(p.data == x){
-//			 return i;
-//		 }
-//	 }
-//	 return 0;
-//}
+	//  public int search(T x){
+	//	 int i = 0;
+	//	 Node<T> p = this.head;
+	//	 while(p!=null){
+	//		 p = p.next;
+	//		 i++;
+	//		 if(p.data == x){
+	//			 return i;
+	//		 }
+	//	 }
+	//	 return 0;
+	//}
     
-//public void reverse(){
-//	Node<T> p = this.head;
-//	Object[] middleware =new Object[0x0000ffff];
-//	int index = 0;
-//	
-//	while(p!=null){
-//		middleware[index] = p;
-//		p=p.next;
-//	}
-//	
-//	for(int i = index;i>=0 && index!=0;i--){
-//		middleware[i].next = middleware[i-1];
-//	}
-//	
-//	middleware.length = 0;
-//}
+	//public void reverse(){
+	//	Node<T> p = this.head;
+	//	Object[] middleware =new Object[0x0000ffff];
+	//	int index = 0;
+	//	
+	//	while(p!=null){
+	//		middleware[index] = p;
+	//		p=p.next;
+	//	}
+	//	
+	//	for(int i = index;i>=0 && index!=0;i--){
+	//		middleware[i].next = middleware[i-1];
+	//	}
+	//	
+	//	middleware.length = 0;
+	//}
 }
