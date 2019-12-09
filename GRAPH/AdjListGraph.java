@@ -11,26 +11,26 @@
 //        super(length);
 //        this.matrix = new LinkedMatrix(length);
 //    }
-//    
+//
 //    public AdjListGraph(){
 //    	super(10);
 //    	this.matrix = new LinkedMatrix(10);
 //    }
-//    
+//
 //    public AdjListGraph(T[] vertexs){
 //    	this(vertexs.length);
 //    	for(T ele : vertexs){
 //    		this.insertVertex(ele);
 //    	}
 //    }
-//    
+//
 //    public AdjListGraph(T[] vertexs, Triple[] tris){
 //    	this(vertexs);
 //    	for(Triple tri : tris){
 //    		this.insertEdge(tri);
 //    	}
 //    }
-//    
+//
 //    public void insertEdge(int i,int j,int weight){
 //    	if(j!=i){
 //    		if(weight<0||weight>MAX_WEIGHT){
@@ -42,11 +42,11 @@
 //    		throw new Error("不能形成自身环");
 //    	}
 //    }
-//    
+//
 //    public void insertEdge(Triple tri){
 //    	this.insertEdge(tri.row,tri.col,tri.data);
 //    }
-//    
+//
 //    public int insertVertex(T x){
 //    	int i = this.vertexList.insert(x);
 //    	if(i >= this.matrix.getRows()){
@@ -54,18 +54,18 @@
 //    	}
 //    	return i;
 //    }
-//    
+//
 //    public void removeEdge(int i,int j){
 //    	if(i!=j){
 //        	this.insertEdge(i, j, 0);
 //    	}
 //    }
-//    
+//
 //    public void removeEdge(int i){
 //    	int n = this.vertexCount();
-//    	
+//
 //    }
-//    
+//
 //    public int weight(int i,int j){
 //    	if(i==j){
 //    		return 0;
@@ -74,7 +74,7 @@
 //    	//如果说i和j越界，在linkedMatrix那里会有越界异常。
 //    	return weight != 0 ? weight : MAX_WEIGHT;
 //    }
-//    
+//
 //    /**
 //     * @param i	行数
 //     * @param j	列数
@@ -106,5 +106,5 @@
 //    	//没拿到都返回-1.
 //    	return -1;
 //    }
-//    
+//
 //}
