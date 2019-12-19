@@ -1,4 +1,4 @@
-package ALG;
+package ALG.SEARCH;
 
 import LIST.SinglyList;
 import LIST.Node;

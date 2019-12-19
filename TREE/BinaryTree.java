@@ -68,7 +68,7 @@ public class BinaryTree<T> {
         if(LeftChild == true){
             return parent.left = new BinaryNode<T>(x,parent.left,null);//创建一个新的结点
         }else{
-            return parent.right = new BinaryNode<T>(x,parent.right,null);
+            return parent.right = new BinaryNode<T>(x,null,parent.right);
         }
     }
 
@@ -132,7 +132,7 @@ public class BinaryTree<T> {
 //        System.out.print("层次遍历的顺序为：");
 //        LinkedQueue<BinaryNode<T>> queue = new LinkedQueue<BinaryNode<T>>();
 //        BinaryNode<T> p = this.root;
-
+//
 //        while(p!=null){
 //            System.out.println(p.data+" ");
 //            if(p.left != null) queue.add(p.left);

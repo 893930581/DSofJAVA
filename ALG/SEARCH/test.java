@@ -1,4 +1,4 @@
-package ALG;
+package ALG.SEARCH;
 
 public class test {
 	public static void main(String[] agrs){

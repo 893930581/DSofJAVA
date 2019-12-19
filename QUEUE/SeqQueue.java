@@ -8,7 +8,7 @@ public final class SeqQueue<T> implements Queue<T>{
         if(length < 64){
             length = 64;
         }
-        this.element = new Object[64];
+        this.element = new Object[length];
         this.front = this.rear = 0;
 
     }
